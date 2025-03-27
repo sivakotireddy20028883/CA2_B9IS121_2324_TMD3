@@ -14,3 +14,14 @@ import Register from './components/Register';
 import Login from './components/Login';
 import MenuPage from './components/MenuPage';
 import './App.css'; 
+
+const App = () => {
+    const [user, setUser] = useState(null);
+
+    const handleLogin = (loggedInUser) => {
+        setUser(loggedInUser);
+    };
+
+    const handleLogout = () => {
+        setUser(null);
+    };

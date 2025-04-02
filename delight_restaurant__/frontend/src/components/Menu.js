@@ -49,3 +49,51 @@ const Menu = () => {
         }
         return 0;
     });
+
+    return (
+        <div className="menu">
+            <h1>Our Menu</h1>
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
+            <div className="menu-controls">
+                <input
+                    type="text"
+                    placeholder="Search by name..."
+                    value={searchTerm}
+                    onChange={handleSearch}
+                    className="search-bar"
+                />
+                <button onClick={() => handleSort('name')}>
+                    Sort by Name {sortKey === 'name' && (sortOrder === 'asc' ? '▲' : '▼')}
+                </button>
+                <button onClick={() => handleSort('price')}>
+                    Sort by Price {sortKey === 'price' && (sortOrder === 'asc' ? '▲' : '▼')}
+                </button>
+            </div>
+            <div className="menu-items">
+                {sortedItems.length > 0 ? (
+                    sortedItems.map(item => (
+                        <div key={item.id} className="menu-item">
+                            
+                            {/*<img 
+                                src={process.env.PUBLIC_URL + item.image_path} 
+                                alt={item.name} 
+                                className="menu-item-image" 
+                            >/*}
+                            {/* Content on the right */}
+                            <div className="menu-item-content">
+                                <h3>{item.name}</h3>
+                                <p>Price: ${item.price.toFixed(2)}</p>
+                                <p>Description: {item.description}</p>
+                                <p>Availability: {item.availability ? 'Available' : 'Not Available'}</p>
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <p>No menu items found.</p>
+                )}
+            </div>
+        </div>
+    );
+};
+
+export default Menu;

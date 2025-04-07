@@ -31,3 +31,54 @@ const Register = () => {
             setRegistrationSuccess(false);
         }
     };
+    return (
+        <div className="register-container">
+            <h2>Register</h2>
+            <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <label>Username</label>
+                    <input
+                        type="text"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        required
+                    />
+                </div>
+                <div className="form-group">
+                    <label>Password</label>
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+                </div>
+                <div className="form-group">
+                    <label>Role</label>
+                    <select value={role} onChange={(e) => setRole(e.target.value)} required>
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+                <div className="form-group">
+                    <label>Email</label>
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                    />
+                </div>
+                <button type="submit">Register</button>
+            </form>
+            {message && <p>{message}</p>}
+            {registrationSuccess && (
+                <p>
+                    Registration successful! <Link to="/login">Click here to login</Link>
+                </p>
+            )}
+        </div>
+    );
+};
+
+export default Register;

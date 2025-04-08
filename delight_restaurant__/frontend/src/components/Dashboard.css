@@ -1,0 +1,19 @@
+.dashboard-container {
+    padding: 20px;
+    text-align: center;
+}
+
+.logout-button {
+    background: #ff4d4d;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.logout-button:hover {
+    background: #ff1a1a;
+}
+    

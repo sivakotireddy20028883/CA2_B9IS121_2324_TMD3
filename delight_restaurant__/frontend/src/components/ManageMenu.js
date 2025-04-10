@@ -121,3 +121,107 @@ const ManageMenu = () => {
     const handleSort = (type) => {
         setSortType(type);
     };
+
+    const handleToggleEdit = (id) => {
+        setMenuItems(menuItems.map(item => (item.id === id ? { ...item, isEditing: !item.isEditing } : item)));
+    };
+
+    const handleCancelUpdate = (id) => {
+        setMenuItems(menuItems.map(item => (item.id === id ? { ...item, isEditing: false } : item)));
+    };
+
+    const filteredItems = menuItems.filter(item => item.name.toLowerCase().includes(searchTerm.toLowerCase()));
+
+    const sortedItems = filteredItems.sort((a, b) => {
+        if (sortType === 'name_asc') {
+            return a.name.localeCompare(b.name);
+        } else if (sortType === 'name_desc') {
+            return b.name.localeCompare(a.name);
+        } else if (sortType === 'price_asc') {
+            return a.price - b.price;
+        } else if (sortType === 'price_desc') {
+            return b.price - a.price;
+        } else {
+            return 0;
+        }
+    });
+
+    const handleLogout = () => {
+        navigate('/');
+    };
+
+    return (
+        <div className="manage-menu">
+            <AdminDashboard onLogout={handleLogout} />
+            <h1>Manage Menu</h1>
+
+            {successMessage && <div className="success-message">{successMessage}</div>}
+            {error && <div className="error-message">{error}</div>}
+            {loading && <p>Loading...</p>}
+
+            <div className="add-item">
+                {!showAddForm && (
+                    <button className="small-button" onClick={toggleAddForm}>Add Item</button>
+                )}
+
+                {showAddForm && (
+                    <AddMenuItem 
+                        newItemData={newItem}
+                        handleInputChange={handleInputChange}
+                        handleAddItem={handleAddItem}
+                        error={error}
+                        handleCancelAddItem={toggleAddForm}
+                    />
+                )}
+            </div>
+
+            <input
+                type="text"
+                placeholder="Search by name"
+                value={searchTerm}
+                onChange={handleSearch}
+                className="search-bar"
+            />
+
+            <div className="sorting-buttons">
+                <button className={sortType === 'name_asc' ? 'active' : ''} onClick={() => handleSort('name_asc')}>Name A-Z</button>
+                <button className={sortType === 'name_desc' ? 'active' : ''} onClick={() => handleSort('name_desc')}>Name Z-A</button>
+                <button className={sortType === 'price_asc' ? 'active' : ''} onClick={() => handleSort('price_asc')}>Price Low-High</button>
+                <button className={sortType === 'price_desc' ? 'active' : ''} onClick={() => handleSort('price_desc')}>Price High-Low</button>
+            </div>
+
+            <div className="menu-items">
+                {sortedItems.map(item => (
+                    <div key={item.id} className="menu-item">
+                        {item.isEditing ? (
+                            <UpdateMenuItem
+                                itemData={item}
+                                handleInputChange={(e) => handleItemInputChange(e, item.id)}
+                                handleUpdateItem={() => handleUpdateItem(item.id)}
+                                handleCancelUpdate={() => handleCancelUpdate(item.id)}
+                                error={error}
+                            />
+                        ) : (
+                            <>
+                                {item.availability ? (
+                                    <h3>{item.name}</h3>
+                                ) : (
+                                    <h3><strike>{item.name}</strike></h3>
+                                )}
+                                <p>{item.description}</p>
+                                <p>${item.price}</p>
+                                <p>{item.availability ? 'Available' : 'Not Available'}</p>
+                                <div className="menu-item-buttons">
+                                    <button className="small-button" onClick={() => handleToggleEdit(item.id)}>Update</button>
+                                    <button className="small-button" onClick={() => handleDeleteItem(item.id)}>Delete</button>
+                                </div>
+                            </>
+                        )}
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};
+
+export default ManageMenu;

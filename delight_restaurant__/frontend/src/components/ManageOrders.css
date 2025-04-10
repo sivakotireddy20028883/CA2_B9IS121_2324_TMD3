@@ -1,0 +1,47 @@
+/* ManageOrders.css */
+
+.manage-orders {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .manage-orders h1 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .order-list {
+    margin-top: 20px;
+  }
+  
+  .order-item {
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .order-item h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #555;
+  }
+  
+  .order-item p {
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: #777;
+  }
+  
+  .order-item p:last-child {
+    margin-bottom: 0;
+  }
+  

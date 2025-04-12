@@ -1,0 +1,106 @@
+.manage-menu {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8; /* Soft background color for the page */
+}
+
+.add-item {
+    margin-bottom: 20px;
+}
+
+.small-button {
+    margin: 5px;
+    padding: 10px 15px; /* Increased padding for better visibility */
+    background-color: #4CAF50; /* Fresh green button color */
+    color: white;
+    border: none;
+    border-radius: 5px; /* Smooth button edges */
+    cursor: pointer;
+    font-size: 14px; /* Slightly larger font for readability */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover effects */
+}
+
+.small-button:hover {
+    background-color: #45a049; /* Slightly darker green for hover effect */
+    transform: scale(1.05); /* Subtle zoom-in effect */
+}
+
+.search-bar {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc; /* Border for better input visibility */
+    border-radius: 5px; /* Rounded corners for the search bar */
+}
+
+.sorting-buttons {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center; /* Center align buttons */
+    gap: 10px; /* Add space between buttons */
+}
+
+.sorting-buttons button {
+    padding: 10px 15px;
+    background-color: #007BFF; /* Blue color for sorting buttons */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.sorting-buttons button.active {
+    background-color: #0056b3; /* Darker blue for active button */
+    font-weight: bold;
+}
+
+.sorting-buttons button:hover {
+    background-color: #0056b3; /* Darker blue for hover */
+    transform: scale(1.05); /* Subtle zoom-in effect */
+}
+
+.menu-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px; /* Add consistent spacing between menu items */
+    justify-content: center; /* Center-align menu items */
+}
+
+.menu-item {
+    width: calc(33.333% - 20px); /* Adjust width to accommodate gaps */
+    margin: 10px;
+    padding: 15px;
+    border: 1px solid #ddd; /* Light border for a clean look */
+    border-radius: 10px; /* Smooth card edges */
+    background-color: #ffffff; /* Clean white background for menu items */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.menu-item:hover {
+    transform: scale(1.03); /* Slightly larger on hover */
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+}
+
+.menu-item h3 {
+    font-size: 18px; /* Clear heading for item name */
+    color: #333;
+}
+
+.menu-item p {
+    margin: 5px 0;
+    color: #666; /* Softer color for descriptions and price */
+}
+
+.menu-item-buttons {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px; /* Space between Update and Delete buttons */
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+}

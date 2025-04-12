@@ -1,0 +1,23 @@
+.user-dashboard {
+    text-align: center;
+    padding: 20px;
+}
+
+.user-dashboard nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+.user-dashboard nav ul li {
+    display: inline;
+    margin: 0 10px;
+}
+
+.user-dashboard nav ul li a {
+    text-decoration: none;
+    color: #007BFF;
+}
+
+.user-dashboard nav ul li a:hover {
+    text-decoration: underline;
+}

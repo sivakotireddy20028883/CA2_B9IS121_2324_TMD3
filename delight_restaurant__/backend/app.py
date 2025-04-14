@@ -81,3 +81,49 @@ class Order(db.Model):
             'items': self.items,
             'timestamp': self.timestamp.strftime('%Y-%m-%d %H:%M:%S')
         }  
+        
+class Reservation(db.Model):
+    __tablename__ = 'reservations'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    date = db.Column(db.Date, nullable=False)
+    time = db.Column(db.Time, nullable=False)
+    people = db.Column(db.Integer, nullable=False)
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'date': self.date.strftime('%Y-%m-%d'),
+            'time': self.time.strftime('%H:%M'),
+            'people': self.people
+        }
+
+# API Routes
+
+# Registration API
+@app.route('/api/register', methods=['POST'])
+def register():
+    try:
+        data = request.get_json()
+        if not data or 'username' not in data or 'email' not in data or 'password' not in data:
+            return jsonify({"error": "Invalid registration data"}), 400
+
+        
+        existing_user = User.query.filter((User.username == data['username']) | (User.email == data['email'])).first()
+        if existing_user:
+            return jsonify({"error": "Username or email already exists"}), 400
+
+        # Create a new user
+        new_user = User(
+            username=data['username'],
+            email=data['email'],
+            password=data['password'],  
+            role=data.get('role', 'User')
+        )
+        db.session.add(new_user)
+        db.session.commit()
+        return jsonify({"message": "User registered successfully", "user": new_user.serialize()}), 201
+    except Exception as e:
+        return jsonify({"error": f"Failed to register user: {str(e)}"}), 500

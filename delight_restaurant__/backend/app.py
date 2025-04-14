@@ -186,3 +186,70 @@ def update_menu_item(id):
         return jsonify(menu_item.serialize()), 200
     except Exception as e:
         return jsonify({"error": f"Failed to update menu item: {str(e)}"}), 500
+# Order APIs
+@app.route('/api/orders', methods=['POST'])
+def place_order():
+    try:
+        data = request.get_json()
+        if not data or 'items' not in data:
+            return jsonify({"error": "Invalid order data. 'items' are required."}), 400
+
+        new_order = Order(items=data['items'])
+        db.session.add(new_order)
+        db.session.commit()
+        return jsonify(new_order.serialize()), 201
+    except Exception as e:
+        return jsonify({"error": f"Failed to place order: {str(e)}"}), 500
+
+@app.route('/api/orders', methods=['GET'])
+def get_orders():
+    try:
+        orders = Order.query.all()
+        results = []
+        for order in orders:
+            order_items = []
+            for item in order.items:  # `order.items` contains [{"id": 1, "quantity": 1}]
+                menu_item = Menu.query.get(item['id'])  # Fetch the corresponding menu item
+                if menu_item:
+                    order_items.append({
+                        "id": item["id"],
+                        "name": menu_item.name,  # Add item name
+                        "quantity": item["quantity"]
+                    })
+            results.append({
+                "id": order.id,
+                "items": order_items,
+                "timestamp": order.timestamp.strftime('%Y-%m-%d %H:%M:%S')
+            })
+        return jsonify(results), 200
+    except Exception as e:
+        return jsonify({"error": f"Failed to fetch orders: {str(e)}"}), 500
+
+# Reservation APIs
+@app.route('/api/reservations', methods=['GET'])
+def get_reservations():
+    try:
+        reservations = Reservation.query.all()
+        return jsonify([reservation.serialize() for reservation in reservations]), 200
+    except Exception as e:
+        return jsonify({"error": f"Failed to fetch reservations: {str(e)}"}), 500
+
+@app.route('/api/reservations', methods=['POST'])
+def create_reservation():
+    try:
+        data = request.get_json()
+        new_reservation = Reservation(
+            name=data['name'],
+            date=datetime.strptime(data['date'], '%Y-%m-%d').date(),
+            time=datetime.strptime(data['time'], '%H:%M').time(),
+            people=data['people']
+        )
+        db.session.add(new_reservation)
+        db.session.commit()
+        return jsonify(new_reservation.serialize()), 201
+    except Exception as e:
+        return jsonify({"error": f"Failed to create reservation: {str(e)}"}), 500
+
+# Run the app
+if __name__ == '__main__':
+    app.run(debug=True)

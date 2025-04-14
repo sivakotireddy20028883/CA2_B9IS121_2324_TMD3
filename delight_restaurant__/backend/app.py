@@ -155,3 +155,34 @@ def create_menu():
         return jsonify(new_menu.serialize()), 201
     except Exception as e:
         return jsonify({"error": f"Failed to create menu: {str(e)}"}), 500
+    
+    @app.route('/api/menu/<int:id>', methods=['DELETE'])
+def delete_menu_item(id):
+    try:
+        menu_item = Menu.query.get(id)
+        if not menu_item:
+            return jsonify({"error": "Menu item not found"}), 404
+
+        db.session.delete(menu_item)
+        db.session.commit()
+        return jsonify({"message": "Menu item deleted successfully"}), 200
+    except Exception as e:
+        return jsonify({"error": f"Failed to delete menu item: {str(e)}"}), 500
+
+@app.route('/api/menu/<int:id>', methods=['PUT'])
+def update_menu_item(id):
+    try:
+        menu_item = Menu.query.get(id)
+        if not menu_item:
+            return jsonify({"error": "Menu item not found"}), 404
+
+        data = request.get_json()
+        menu_item.name = data.get('name', menu_item.name)
+        menu_item.description = data.get('description', menu_item.description)
+        menu_item.price = data.get('price', menu_item.price)
+        menu_item.availability = data.get('availability', menu_item.availability)
+
+        db.session.commit()
+        return jsonify(menu_item.serialize()), 200
+    except Exception as e:
+        return jsonify({"error": f"Failed to update menu item: {str(e)}"}), 500

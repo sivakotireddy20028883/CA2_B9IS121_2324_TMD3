@@ -47,4 +47,37 @@ class User(db.Model):
             'role': self.role
         }
         
-        
+class Menu(db.Model):
+    __tablename__ = 'menu'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.String(255), nullable=True)
+    price = db.Column(db.Float, nullable=False)
+    availability = db.Column(db.Boolean, nullable=False, default=True)
+    image_path = db.Column(db.String(255), nullable=True)  # Add this field
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'description': self.description,
+            'price': self.price,
+            'availability': self.availability,
+            #'image_path': self.image_path  # Include image_path in the API response
+        }
+
+
+class Order(db.Model):
+    __tablename__ = 'orders'
+
+    id = db.Column(db.Integer, primary_key=True)
+    items = db.Column(db.JSON, nullable=False)  # Store menu items as JSON
+    timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'items': self.items,
+            'timestamp': self.timestamp.strftime('%Y-%m-%d %H:%M:%S')
+        }  

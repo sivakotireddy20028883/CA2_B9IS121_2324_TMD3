@@ -127,3 +127,31 @@ def register():
         return jsonify({"message": "User registered successfully", "user": new_user.serialize()}), 201
     except Exception as e:
         return jsonify({"error": f"Failed to register user: {str(e)}"}), 500
+
+# Menu APIs
+@app.route('/api/menus', methods=['GET'])
+def get_menus():
+    try:
+        menus = Menu.query.all()
+        app.logger.debug(f"Fetched menus: {menus}")
+        return jsonify([menu.serialize() for menu in menus]), 200
+    except Exception as e:
+        app.logger.error(f"Error in get_menus: {str(e)}")  # Logs the error
+        return jsonify({"error": f"Failed to fetch menus: {str(e)}"}), 500
+
+
+@app.route('/api/menu', methods=['POST'])
+def create_menu():
+    try:
+        data = request.get_json()
+        new_menu = Menu(
+            name=data['name'],
+            description=data.get('description'),
+            price=data['price'],
+            availability=data['availability']
+        )
+        db.session.add(new_menu)
+        db.session.commit()
+        return jsonify(new_menu.serialize()), 201
+    except Exception as e:
+        return jsonify({"error": f"Failed to create menu: {str(e)}"}), 500
